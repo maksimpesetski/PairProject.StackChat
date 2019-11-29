@@ -5,6 +5,7 @@ const db = require('./db');
 const PORT = process.env.PORT || 8080;
 const app = express();
 const server = app.listen(PORT, () => console.log(`Feeling chatty on port ${PORT}`));
+
 const io = require('socket.io')(server);
 
 // handle sockets

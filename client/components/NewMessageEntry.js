@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
+import { sendMessage } from '../store'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-export default class NewMessageEntry extends Component {
+export class NewMessageEntry extends Component {
+  constructor() {
+    super()
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  render () {
+  handleSubmit(e) {
+    e.preventDefault();
+    const message = e.target.content.value;
+    this.props.submitMessage({ content: message, channelId: this.props.channelId })
+  }
+
+  render() {
     return (
-      <form id="new-message-form">
+      <form id="new-message-form" onSubmit={this.handleSubmit}>
         <div className="input-group input-group-lg">
           <input
             className="form-control"
@@ -20,3 +33,11 @@ export default class NewMessageEntry extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispath) => ({
+  submitMessage: (message) => dispath(sendMessage(message))
+})
+
+export default withRouter(connect(null, mapDispatchToProps)(NewMessageEntry));
+
+
